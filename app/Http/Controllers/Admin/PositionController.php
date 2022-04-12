@@ -30,7 +30,10 @@ class PositionController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.position.create');
+        $permission = Position::get();
+        return view('admin.pages.position.create', [
+            'permission' => $permission,
+        ]);
     }
 
     /**
@@ -74,10 +77,9 @@ class PositionController extends Controller
      */
     public function edit($id)
     {
-        $position = Position::findOrFail($id);
-
+        $positions = Position::findOrFail($id);
         return view('admin.pages.position.edit', [
-            'position' => $position,
+            'positions' => $positions,
         ]);
     }
 
@@ -152,7 +154,7 @@ class PositionController extends Controller
                 $data = Position::find($id);
                 $data->delete();
             }
-            return redirect()->route('position.index')->with('process-success', 'Berhasil menghapus semua data!');
+            return redirect()->route('position.index')->with('process-success', 'Berhasil menghapus semua data yang terpilih!');
         } else {
             return redirect()->back();
         }

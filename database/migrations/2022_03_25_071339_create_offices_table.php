@@ -17,7 +17,7 @@ class CreateOfficesTable extends Migration
             $table->id();
 
             $table->string('name');
-            $table->string('addres');
+            $table->string('address');
             $table->string('village');
             $table->string('district');
             $table->string('city');

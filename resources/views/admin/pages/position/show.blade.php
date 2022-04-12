@@ -9,10 +9,10 @@
           </td>
         </tr>
         <tr>
-          <td class="text-uppercase text-secondary text-xxs font-weight-bolder">Waktu Pembuatan</td>
+          <td class="text-uppercase text-secondary text-xxs font-weight-bolder">Hak Akses</td>
           <td class="text-uppercase text-secondary text-xxs font-weight-bolder">:</td>
           <td>
-            <h6 class="mb-0 text-sm">{{ $position->created_at }}</h6>
+            <h6 class="mb-0 text-sm">{{ Str::title($position->user->role) }}</h6>
           </td>
         </tr>
       </table>

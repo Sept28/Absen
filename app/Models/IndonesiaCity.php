@@ -11,7 +11,12 @@ class IndonesiaCity extends Model
 
     protected $table = 'indonesia_cities';
 
-    public function office()
+    public function offices()
+    {
+        return $this->hasMany(Office::class, 'id');
+    }
+
+    public function biodatas()
     {
         return $this->hasMany(Office::class, 'id');
     }

@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
         <label for="example-text-input" class="form-control-label">Alamat</label>
-        <input name="addres" class="form-control" type="text" placeholder="Ketik disini!">
+        <input name="address" class="form-control" type="text" placeholder="Ketik disini!">
     </div>
     <div class="form-group">
         <label for="example-text-input" class="form-control-label">Kelurahan</label>

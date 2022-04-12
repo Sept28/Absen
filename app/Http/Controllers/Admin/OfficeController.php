@@ -137,7 +137,7 @@ class OfficeController extends Controller
                 $data = Office::find($id);
                 $data->delete();
             }
-            return redirect()->route('office.index')->with('process-success', 'Berhasil menghapus semua data!');
+            return redirect()->route('office.index')->with('process-success', 'Berhasil menghapus semua data yang terpilih!');
         } else {
             return redirect()->back();
         }

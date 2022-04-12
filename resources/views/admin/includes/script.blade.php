@@ -143,10 +143,39 @@
             modal.find('.modal-title').html(button.data('title'));
         });
     });
-    </script>
+</script>
     
     <div class="modal" id="mymodal" tabindex="-1">
         <div class="modal-dialog mt-4">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"></h5>
+                    <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <i class="fa fa-spinner fa-spin"></i>
+                </div>
+                <div class="modal-footer-line" 
+                     style="border-top: lightgray solid 1px;
+                            transform:translateY(-100px);"
+                >
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        jQuery(document).ready(function($){
+            $('#mymodalform').on('show.bs.modal', function(e){
+                var button = $(e.relatedTarget);
+                var modal = $(this);
+                modal.find('.modal-body').load(button.data('remote'));
+                modal.find('.modal-title').html(button.data('title'));
+            });
+        });
+    </script>
+    <div class="modal ms-5" id="mymodalform" tabindex="-1">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title"></h5>

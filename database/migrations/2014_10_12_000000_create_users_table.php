@@ -19,7 +19,8 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->enum('role',['manager','service-manager','pegawai']);
+            $table->enum('role',['owner','manager','employee'])->default('employee');
+            $table->foreignId('biodata_staff_id');
 
             // $table->timestamp('email_verified_at')->nullable();
             // $table->rememberToken();

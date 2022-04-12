@@ -17,11 +17,13 @@ class CreateAttendancesTable extends Migration
             $table->id();
 
             $table->foreignId('staff_id');
-            $table->enum('attendace', ['hadir','izin','sakit','telat','alfa']);
+            $table->enum('attendance', ['hadir','izin','sakit','telat','alfa']);
             $table->string('description');
             $table->string('support_file');
+            $table->date('date');
             $table->time('time_in');
             $table->time('time_out');
+            $table->text('attendance_address');
             
             $table->timestamps();
         });

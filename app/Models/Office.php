@@ -9,16 +9,18 @@ class Office extends Model
 {
     use HasFactory;
     protected   $fillable = [
-        'name', 'addres', 'village', 'district', 'city', 'province'
+        'name', 'address', 'village', 'district', 'city', 'province'
     ];
 
-    public function indoCity()
-    {
+    public function indoCity(){
         return $this->belongsTo(IndonesiaCity::class,'city','id');
     }
 
-    public function provincy()
-    {
+    public function provincy(){
         return $this->belongsTo(IndonesiaProvince::class,'province','code');
+    }
+
+    public function staffs(){
+        return $this->hasMany(Staff::class, 'id');
     }
 }

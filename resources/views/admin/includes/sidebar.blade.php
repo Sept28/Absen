@@ -32,7 +32,13 @@
               </a>
               <ul class="submenu collapse">
                 <li>
-                  <a class="nav-link" href="{{ route('position.index') }}">
+                  <a class="nav-link" href="{{ route('biodata.index') }}">
+                    <i class="fas fa-user"></i>
+                    Data Candidates
+                  </a>
+                </li>
+                <li>
+                  <a class="nav-link" href="{{ route('staff.index') }}">
                     <i class="fas fa-user-tie"></i>
                     Data Staff
                   </a>
@@ -50,9 +56,9 @@
                   </a>
                 </li>
                 <li>
-                  <a class="nav-link" href="#">
+                  <a class="nav-link" href="{{ route('shift.index') }}">
                     <i class="fas fa-clock"></i>
-                    Data Jam/Shift Kerja
+                    Data Shift Kerja
                   </a>
                 </li>
               </ul>

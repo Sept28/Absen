@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Office;
-use App\Models\Shift;
+use App\Models\BiodataStaff;
+use App\Models\Staff;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class ShiftController extends Controller
+class BiodataStaffController extends Controller
 {
+    
     /**
      * Display a listing of the resource.
      *
@@ -16,8 +19,8 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        $shifts = Shift::get();
-        return view('admin.pages.shift.index', compact('shifts'));
+        $users = User::get();
+        return view('admin.pages.biodata.index', compact('users'));
     }
 
     /**
@@ -27,7 +30,7 @@ class ShiftController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.shift.create');
+        return view('admin.pages.biodata.create');
     }
 
     /**
@@ -38,11 +41,24 @@ class ShiftController extends Controller
      */
     public function store(Request $request)
     {
-        $data = $request->all();
-        
-        Shift::create($data);
+        $biodata = BiodataStaff::create([
+            'full_name' => $request->full_name,
+            'nik' => $request->nik,
+            'birth_date' => $request->birth_date,
+            'education' => $request->education,
+            'gender' => $request->gender,
+            'phone_number' => $request->phone_number,
+        ]);
 
-        return redirect()->route('shift.index')->with('process-success', 'Berhasil menambah data!');
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => $request->password,
+            'biodata_staff_id' => $biodata->id,
+            'role' => $request->role,
+        ]);
+
+        return redirect()->route('biodata.index')->with('process-success', 'Berhasil menambah data!');
     }
 
     /**
@@ -53,9 +69,9 @@ class ShiftController extends Controller
      */
     public function show($id)
     {
-        $shift = Shift::findOrFail($id);
-        return view('admin.pages.shift.show', [
-            'shift' => $shift,
+        $user = User::findOrFail($id);
+        return view('admin.pages.biodata.show',[
+            'user' => $user,
         ]);
     }
 
@@ -67,9 +83,13 @@ class ShiftController extends Controller
      */
     public function edit($id)
     {
-        $shift = Shift::findOrFail($id);
-        return view('admin.pages.shift.edit',[
-            'shift' => $shift,
+        $user = User::findOrFail($id);
+        $provinces = DB::table('indonesia_provinces')->get();
+        $cities = DB::table('indonesia_cities')->get();
+        return view('admin.pages.biodata.edit',[
+            'user' => $user,
+            'cities' => $cities,
+            'provinces' => $provinces,
         ]);
     }
 
@@ -84,17 +104,16 @@ class ShiftController extends Controller
     {
         $data = $request->all();
 
-        Shift::findOrFail($id)->update($data);
+        BiodataStaff::findOrFail($id)->update($data);
 
-        return redirect()->route('shift.index')->with('process-success', 'Berhasil mengubah data!');
+        return redirect()->route('biodata.index')->with('process-success', 'Berhasil mengubah data!');
     }
-
 
     public function confirmation($id)
     {
         alert()->warning('Peringatan !', 'Data yang dihapus tidak bisa dikembalikan')
         ->showConfirmButton(
-        '<form action="'. route('shift.destroy', $id).'" method="POST" class="border-0">
+        '<form action="'. route('biodata.destroy', $id).'" method="POST" class="border-0">
             ' . method_field('delete') . csrf_field() . '
             <button type="submit"
                 style="border: none; background-color: #3085d6; color: #fff;"
@@ -106,6 +125,7 @@ class ShiftController extends Controller
 
         return back();
     }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -114,23 +134,8 @@ class ShiftController extends Controller
      */
     public function destroy($id)
     {
-        $data = Shift::findOrFail($id);
-        $data->delete();
-
-        return redirect()->back()->with('process-success', 'Berhasil menghapus data!');
-    }
-
-    public function deleteAll(Request $request){
-        $ids = $request->get('ids');
-
-        if ($ids != null) {
-            foreach ($ids as $id){
-                $data = Shift::find($id);
-                $data->delete();
-            }
-            return redirect()->route('shift.index')->with('process-success', 'Berhasil menghapus semua data yang terpilih!');
-        } else {
-            return redirect()->back();
-        }
+        BiodataStaff::findOrFail($id)->delete();
+        User::where('biodata_staff_id', '=', $id)->delete();
+        return redirect()->route('biodata.index')->with('procces->success', 'Berhasil menghapus data');
     }
 }

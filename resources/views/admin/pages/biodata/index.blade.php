@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 
-@section('title', 'Position')
+@section('title', 'biodata')
 
 @section('content')
 <div class="container-fluid py-4">
@@ -8,7 +8,7 @@
       <div class="col-12">
         <div class="card mb-4">
           <div class="card-header pb-2">
-            <h6>Table Jabatan</h6>
+            <h6>Table Biodata</h6>
             @if (session('process-success'))
               <div class="alert alert-success alert-dismissible show fade">
                   <div class="alert-body fw-bold text-white">
@@ -29,19 +29,19 @@
                 <li><a class="dropdown-item" href="#" id="del">Hapus</a></li>
               </ul>
             </div>
-            <a href="#mymodal"
+            <a href="#mymodalform"
                class="btn btn-default px-3 text-primary text-xs"
-               data-remote="{{ route('position.create') }}"
+               data-remote="{{ route('biodata.create') }}"
                data-toggle="modal"
-               data-target="#mymodal"
-               data-title="Tambah Data Jabatan" 
+               data-target="#mymodalform"
+               data-title="Tambah User" 
             >
               Tambah Data
             </a>
           </div>
           <form method="POST">
             @csrf
-            <button class="d-none" formaction="{{ route('position.deleteAll') }}" id="del2"></button>
+            <button class="d-none" formaction="{{ route('staff.deleteAll') }}" id="del2"></button>
             <div class="card-body px-0 pt-0 pb-2">
               <div class="table-responsive p-0">
                 <table class="table align-items-center mb-0" id="myTable">
@@ -53,18 +53,21 @@
                         </div>
                       </th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Jabatan</th>
-                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Hak Akses</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nama</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Pendidikan</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">NIK</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Gender</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Telepon</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Action</th>
                     </tr>    
                   </thead>
                   <tbody>
-                    @foreach ($positions as $index=>$position)
+                    @foreach ($users as $index=>$biodata)
                       <tr>
                         <td>
                           <div class="d-flex px-3 py-1">
                             <div class="form-check">
-                              <input class="form-check-input checkbox" type="checkbox" id="checkall" name="ids[{{ $position->id }}]" value="{{ $position->id }}">
+                              <input class="form-check-input checkbox" type="checkbox" id="checkall" name="ids[{{ $biodata->id }}]" value="{{ $biodata->id }}">
                             </div>
                           </div>
                         </td>
@@ -76,37 +79,61 @@
                         <td>
                           <div class="d-flex px-3 py-1">
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{ $position->name }}</h6>
+                              <h6 class="mb-0 text-sm">{{ $biodata->biodataStaff->full_name ? $biodata->biodataStaff->full_name : '' }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{ $biodata->biodataStaff->birth_date ? $biodata->biodataStaff->birth_date : '' }}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex px-3 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">{{ $biodata->biodataStaff->education ? $biodata->biodataStaff->education : '' }}</h6>
+                              <p class="text-xs text-secondary mb-0">{{ $biodata->biodataStaff->institute_name ? $biodata->biodataStaff->institute_name : '' ? $biodata->biodataStaff->institute_name ? $biodata->biodataStaff->institute_name : '' . '/' : '' }}  {{ $biodata->biodataStaff->major ? $biodata->biodataStaff->major : '' }}</p>
                           </div>
                           </div>
                         </td>
                         <td>
                           <div class="d-flex px-3 py-1">
                             <div class="d-flex flex-column justify-content-center">
-                              <h6 class="mb-0 text-sm">{{ Str::title($position->user->role) }}</h6>
+                              <h6 class="mb-0 text-sm">{{ $biodata->biodataStaff->nik ? $biodata->biodataStaff->nik : '' }}</h6>
+                            </div>
+                          </div>
+                        </td>
+                        <td>
+                          <div class="d-flex px-3 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">{{ $biodata->biodataStaff->gender == 'L' ? 'Laki-laki' : 'Perempuan' }}</h6>
                           </div>
                           </div>
                         </td>
+                        <td>
+                          <div class="d-flex px-3 py-1">
+                            <div class="d-flex flex-column justify-content-center">
+                              <h6 class="mb-0 text-sm">{{ $biodata->biodataStaff->phone_number }}</h6>
+                          </div>
+                          </div>
+                        </td>
+                        {{-- @dump($biodata->biodataStaff->id) --}}
                         <td class="align-middle">
-                          <a href="#mymodal" 
+                          <a href="#mymodalform" 
                              class="text-warning font-weight-bold text-sm" 
-                             data-remote="{{ route('position.edit', $position->id) }}"
+                             data-remote="{{ route('biodata.edit', $biodata->id) }}"
                              data-toggle="modal"
-                             data-target="#mymodal"
-                             data-title="Ubah Data Jabatan"
+                             data-target="#mymodalform"
+                             data-title="Ubah Biodata"
                           >
                             <i class="fas fa-pen"></i>
                           </a>
-                          <a href="#mymodal"
+                          <a href="#mymodalform"
                              class="text-info font-weight-bold text-sm px-3" 
-                             data-remote="{{ route('position.show', $position->id) }}"
+                             data-remote="{{ route('biodata.show', $biodata->id) }}"
                              data-toggle="modal"
-                             data-target="#mymodal"
-                             data-title="Info Data Jabatan"
+                             data-target="#mymodalform"
+                             data-title="Info Biodata"
                           >
                             <i class="fas fa-eye"></i>
                           </a>  
-                          <a href="{{ route('position.confirmation', $position->id) }}"
+                          <a href="{{ route('biodata.confirmation', $biodata->biodataStaff->id) }}"
                              class="text-danger font-weight-bold text-sm"
                           >
                             <i class="fas fa-trash"></i>

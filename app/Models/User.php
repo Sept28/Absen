@@ -21,6 +21,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'biodata_staff_id'
     ];
 
     /**
@@ -41,4 +42,16 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function staffs(){
+        return $this->hasMany(Staff::class, 'id');
+    }
+
+    public function offices(){
+        return $this->hasMany(Office::class, 'id');
+    }
+
+    public function biodataStaff(){
+        return $this->belongsTo(BiodataStaff::class, 'biodata_staff_id', 'id');
+    }
 }

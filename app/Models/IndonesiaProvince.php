@@ -15,4 +15,9 @@ class IndonesiaProvince extends Model
     {
         return $this->hasMany(Office::class,'id');
     }
+
+    public function biodatas()
+    {
+        return $this->hasMany(Office::class,'id');
+    }
 }
