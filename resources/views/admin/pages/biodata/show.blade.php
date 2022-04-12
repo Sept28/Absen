@@ -105,4 +105,4 @@
     </div>
 <div class="modal-footer-new d-flex justify-content-center">
   <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-</div>
+</div> 
